@@ -55,7 +55,7 @@ void hiddenLayerCalculations(int nodes)
     
     // calculating with weights (input x weight)
     for(int i = 0; i < (12 / 2); i++) {
-        firstCalculations[i] = input[1] * firstLayerWeights[i]
+        firstCalculations[i] = input[1] * firstLayerWeights[i];
     }
 
     for(int i = 0; i < (12 / 2); i++) {
@@ -63,24 +63,24 @@ void hiddenLayerCalculations(int nodes)
     }
 
     // calculating the biases ((input x weightj) + (input x weighti) + bias)
-    for(double i : secondCalculations) {
+    for(int i = 0; i < hiddenLayerNodes; i++) {
        secondCalculations[i] = hiddenLayerBiases[i] + firstCalculations[i] + firstCalculations[i+6];
     }
 
     // calculating output weights (secondcalculations x weight)
-    for(double i : firstOutputCalculations) {
+    for(int i = 0; i < hiddenLayerNodes; i++) {
         firstOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i];
     }
 
-    for(double i : secodnOutputCalculations) {
+    for(int i = 0; i < hiddenLayerNodes; i++) {
         secondOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+6];
     }
 
-    for(double i : thirdOutputCalculations) {
+    for(int i = 0; i < hiddenLayerNodes; i++) {
         firstOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+12];
     }
 
-    for(double i : fourthOutputCalculations) {
+    for(int i = 0; i < hiddenLayerNodes; i++) {
         firstOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+18];
     }
 
@@ -128,13 +128,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
-/*
-
-input: [1, 0]
-
-hidden layers: [2.1, 5, 0.2, 4, 0.01, 1.2] (use random function from cmath for first time)
-
-output: confidence([(1, 0), (0, 1), (1, 1), (0, 0)])
-
-*/
