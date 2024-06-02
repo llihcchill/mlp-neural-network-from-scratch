@@ -7,7 +7,7 @@ const int hiddenLayerNodes = 6;
 double input[2] = {};
 double firstLayerWeights[12] = {};
 double hiddenLayerBiases[hiddenLayerNodes] = {};
-double secondLayerWeights[12] = {};
+double secondLayerWeights[24] = {};
 double outputLayerBiases[4] = {};
 
 // when training is finished, add a function to display all weights and biases on a seperate file
@@ -42,15 +42,55 @@ void randomInitialisation()
     }
 }
 
-void hiddenLayerCreation(int nodes)
+void hiddenLayerCalculations(int nodes)
 {
-    for(int i = 0; i < nodes; i++) {
-       
+    double firstCalculations[12] = {};
+    double secondCalculations[hiddenLayerNodes] = {};
+    double thirdCalculations[24] = {};
+
+    double firstOutputCalculations[6] = {};
+    double secondOutputCalculations[6] = {};
+    double thirdOutputCalculations[6] = {};
+    double fourthOutputCalculations[6] = {};
+    
+    // calculating with weights (input x weight)
+    for(int i = 0; i < (12 / 2); i++) {
+        firstCalculations[i] = input[1] * firstLayerWeights[i]
     }
+
+    for(int i = 0; i < (12 / 2); i++) {
+        firstCalculations[i] = input[2] * firstLayerWeights[i+6];
+    }
+
+    // calculating the biases ((input x weightj) + (input x weighti) + bias)
+    for(double i : secondCalculations) {
+       secondCalculations[i] = hiddenLayerBiases[i] + firstCalculations[i] + firstCalculations[i+6];
+    }
+
+    // calculating output weights (secondcalculations x weight)
+    for(double i : firstOutputCalculations) {
+        firstOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i];
+    }
+
+    for(double i : secodnOutputCalculations) {
+        secondOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+6];
+    }
+
+    for(double i : thirdOutputCalculations) {
+        firstOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+12];
+    }
+
+    for(double i : fourthOutputCalculations) {
+        firstOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+18];
+    }
+
+    // add remaining weights to the output biases and compare each output to see which one is highest
+
 }
 
 int main(int argc, char *argv[]) 
 {
+
     cout << "What is your first input?" << endl;
     cout << "Note: it must be either 1 or 0" << endl;
     cin >> input[0];
@@ -82,7 +122,10 @@ int main(int argc, char *argv[])
     // ------------------------------------------------------------------------------------------------------------
     randomInitialisation();
 
-    hiddenLayerCreation(hiddenLayerNodes);
+    hiddenLayerCalculations(hiddenLayerNodes);
+
+
+
     return 0;
 }
 
