@@ -19,8 +19,6 @@ double outputLayerBiases[4] = {};
 
 void randomInitialisation() 
 {
-    cout << "randomInitialisation function:";
-
     for(double i : firstLayerWeights) {
         srand(time(NULL));
         i = rand() % 10 + 1;
@@ -52,6 +50,8 @@ void hiddenLayerCalculations(int nodes)
     double secondOutputCalculations[6] = {};
     double thirdOutputCalculations[6] = {};
     double fourthOutputCalculations[6] = {};
+
+    double outputCalculations[4] = {};
     
     // calculating with weights (input x weight)
     for(int i = 0; i < (12 / 2); i++) {
@@ -59,7 +59,7 @@ void hiddenLayerCalculations(int nodes)
     }
 
     for(int i = 0; i < (12 / 2); i++) {
-        firstCalculations[i] = input[2] * firstLayerWeights[i+6];
+        firstCalculations[i+6] = input[2] * firstLayerWeights[i+6];
     }
 
     // calculating the biases ((input x weightj) + (input x weighti) + bias)
@@ -77,15 +77,21 @@ void hiddenLayerCalculations(int nodes)
     }
 
     for(int i = 0; i < hiddenLayerNodes; i++) {
-        firstOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+12];
+        thirdOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+12];
     }
 
     for(int i = 0; i < hiddenLayerNodes; i++) {
-        firstOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+18];
+        fourthOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+18];
     }
 
     // add remaining weights to the output biases and compare each output to see which one is highest
 
+    firstOutputCalculations[i] + outputLayerBiases[i]
+
+    for(int i = 0; i < 4; i++) {
+        outputCalculations[i] = firstOutputCalculations[i] + secondOutputCalculations[i+6] + thirdOutputCalculations[i+12] + fourthOutputCalculations[i+18];
+        cout << outputCalculations[i] << endl;
+    }
 }
 
 int main(int argc, char *argv[]) 
@@ -97,10 +103,6 @@ int main(int argc, char *argv[])
 
     cout << "What is your second input?" << endl;
     cin >> input[1];
-
-    cout << "inputs:" << endl;
-    cout << input[1] << endl;
-    cout << input[0] << endl;
 
     if(input[0] != 1) {
         if(input[0] != 0) {
@@ -123,8 +125,5 @@ int main(int argc, char *argv[])
     randomInitialisation();
 
     hiddenLayerCalculations(hiddenLayerNodes);
-
-
-
     return 0;
 }
