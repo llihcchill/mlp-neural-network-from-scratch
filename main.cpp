@@ -4,11 +4,11 @@ using namespace std;
 
 const int hiddenLayerNodes = 6;
 
-double input[2] = {};
-double firstLayerWeights[12] = {};
-double hiddenLayerBiases[hiddenLayerNodes] = {};
-double secondLayerWeights[24] = {};
-double outputLayerBiases[4] = {};
+double input[2];
+double firstLayerWeights[12];
+double hiddenLayerBiases[hiddenLayerNodes];
+double secondLayerWeights[24];
+double outputLayerBiases[4];
 
 // when training is finished, add a function to display all weights and biases on a seperate file
 // inputs will be an array
@@ -19,39 +19,43 @@ double outputLayerBiases[4] = {};
 
 void randomInitialisation() 
 {
-    for(double i : firstLayerWeights) {
+    // sets firstLayerWeights weights (set i < {array size})
+    for(int i = 0; i < 12; i++) {
         srand(time(NULL));
-        i = rand() % 10 + 1;
+        firstLayerWeights[i] = rand() % 10 + 1;
     }
 
-    for(double i : hiddenLayerBiases) {
+    // sets hiddenLayerBiases biases
+    for(int i = 0; i < hiddenLayerNodes; i++) {
         srand(time(NULL));
-        i = rand() % 10 + 1;
+        hiddenLayerBiases[i] = rand() % 10 + 1;
     }
 
-    for(double i : secondLayerWeights) {
+    // sets secondLayerWeights weights
+    for(int i = 0; i < 24; i++) {
         srand(time(NULL));
-        i = rand() % 10 + 1;
+        secondLayerWeights[i] = rand() % 10 + 1;
     }
 
-    for(double i : outputLayerBiases) {
+    // sets outputLayerBiases biases
+    for(int i = 0; i < 4; i++) {
         srand(time(NULL));
-        i = rand() % 10 + 1;
+        outputLayerBiases[i] = rand() % 10 + 1;
     }
 }
 
 void hiddenLayerCalculations(int nodes)
 {
-    double firstCalculations[12] = {};
-    double secondCalculations[hiddenLayerNodes] = {};
-    double thirdCalculations[24] = {};
+    double firstCalculations[12];
+    double secondCalculations[hiddenLayerNodes];
+    double thirdCalculations[24];
 
-    double firstOutputCalculations[6] = {};
-    double secondOutputCalculations[6] = {};
-    double thirdOutputCalculations[6] = {};
-    double fourthOutputCalculations[6] = {};
+    double firstOutputCalculations[6];
+    double secondOutputCalculations[6];
+    double thirdOutputCalculations[6];
+    double fourthOutputCalculations[6];
 
-    double outputCalculations[4] = {};
+    double outputCalculations[4];
     
     // calculating with weights (input x weight)
     for(int i = 0; i < (12 / 2); i++) {
@@ -84,13 +88,10 @@ void hiddenLayerCalculations(int nodes)
         fourthOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+18];
     }
 
-    // add remaining weights to the output biases and compare each output to see which one is highest
-
-    firstOutputCalculations[i] + outputLayerBiases[i]
+    // compare each output to see which one is highest
 
     for(int i = 0; i < 4; i++) {
-        outputCalculations[i] = firstOutputCalculations[i] + secondOutputCalculations[i+6] + thirdOutputCalculations[i+12] + fourthOutputCalculations[i+18];
-        cout << outputCalculations[i] << endl;
+        outputCalculations[i] = firstOutputCalculations[i] + secondOutputCalculations[i+6] + thirdOutputCalculations[i+12] + fourthOutputCalculations[i+18] + outputLayerBiases[i];
     }
 }
 
@@ -118,8 +119,9 @@ int main(int argc, char *argv[])
         }
     }
 
-    // continue on with the program
+    // continue
 
+    // ------------------------------------------------------------------------------------------------------------
     // initialise random weights and biases' to make the neural network 'guess' the best settings to then train it
     // ------------------------------------------------------------------------------------------------------------
     randomInitialisation();
