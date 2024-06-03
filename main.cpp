@@ -17,9 +17,43 @@ double outputLayerBiases[4];
 // function for creating nodes
 // function for backpropogation
 
+void randomInitialisation();
+void hiddenLayerCalculations(int nodes);
+
+
+int main(int argc, char *argv[]) 
+{
+    if(input[0] != 1) {
+        if(input[0] != 0) {
+            cout << "Error: a number besides 1 or 0 has been picked";
+            return 0;
+        }
+    }
+
+    if(input[1] != 1) {
+        if(input[1] != 0) {
+            cout << "Error: a number besides 1 or 0 has been picked";
+            return 0;
+        }
+    }
+
+    // continue
+
+    // ------------------------------------------------------------------------------------------------------------
+    // initialise random weights and biases' to make the neural network 'guess' the best settings to then train it
+    // ------------------------------------------------------------------------------------------------------------
+    randomInitialisation();
+
+    hiddenLayerCalculations(hiddenLayerNodes);
+
+    return 0;
+}
+
+
+
 void randomInitialisation() 
 {
-    // sets firstLayerWeights weights (set i < {array size})
+    // sets firstLayerWeights weights
     for(int i = 0; i < 12; i++) {
         srand(time(NULL));
         firstLayerWeights[i] = rand() % 10 + 1;
@@ -44,7 +78,7 @@ void randomInitialisation()
     }
 }
 
-void hiddenLayerCalculations(int nodes)
+void hiddenLayerCalculations(int nodes) 
 {
     double firstCalculations[12];
     double secondCalculations[hiddenLayerNodes];
@@ -93,39 +127,4 @@ void hiddenLayerCalculations(int nodes)
     for(int i = 0; i < 4; i++) {
         outputCalculations[i] = firstOutputCalculations[i] + secondOutputCalculations[i+6] + thirdOutputCalculations[i+12] + fourthOutputCalculations[i+18] + outputLayerBiases[i];
     }
-}
-
-int main(int argc, char *argv[]) 
-{
-
-    cout << "What is your first input?" << endl;
-    cout << "Note: it must be either 1 or 0" << endl;
-    cin >> input[0];
-
-    cout << "What is your second input?" << endl;
-    cin >> input[1];
-
-    if(input[0] != 1) {
-        if(input[0] != 0) {
-            cout << "Error: a number besides 1 or 0 has been picked";
-            return 0;
-        }
-    }
-
-    if(input[1] != 1) {
-        if(input[1] != 0) {
-            cout << "Error: a number besides 1 or 0 has been picked";
-            return 0;
-        }
-    }
-
-    // continue
-
-    // ------------------------------------------------------------------------------------------------------------
-    // initialise random weights and biases' to make the neural network 'guess' the best settings to then train it
-    // ------------------------------------------------------------------------------------------------------------
-    randomInitialisation();
-
-    hiddenLayerCalculations(hiddenLayerNodes);
-    return 0;
 }
