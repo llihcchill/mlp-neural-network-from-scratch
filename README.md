@@ -22,3 +22,5 @@ double input[2] = {0, 0};
 ```
 
 ---
+
+> **Note:** This program will need some minor tweaking (not just changing the hiddenLayerNodes variable) in order for the use of more nodes, at least at the moment.
