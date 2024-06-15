@@ -104,41 +104,47 @@ void randomInitialisation()
 
 void hiddenLayerCalculations(int nodes) 
 {
+    // the 1 / (1 + exp(-(input))) is the an activation function under the name of a sigmoid function
+    // it puts every value between 0 and 1, along with turning negative values to positive values
+    
     // calculating with weights (input x weight)
     for(int i = 0; i < (12 / 2); i++) {
-        firstCalculations[i] = input[1] * firstLayerWeights[i];
+        firstCalculations[i] = 1 / (1 + exp(-(input[1] * firstLayerWeights[i])));
     }
 
+    cout << endl;
+
     for(int i = 0; i < (12 / 2); i++) {
-        firstCalculations[i+6] = input[2] * firstLayerWeights[i+6];
+        firstCalculations[i+6] = 1 / (1 + exp(-(input[2] * firstLayerWeights[i+6])));
     }
 
     // calculating the biases ((input x weightj) + (input x weighti) + bias)
     for(int i = 0; i < hiddenLayerNodes; i++) {
-       secondCalculations[i] = hiddenLayerBiases[i] + firstCalculations[i] + firstCalculations[i+6];
+       secondCalculations[i] = 1 / (1 + exp(-(hiddenLayerBiases[i] + firstCalculations[i] + firstCalculations[i+6])));
     }
 
     // calculating output weights (secondcalculations x weight)
     for(int i = 0; i < hiddenLayerNodes; i++) {
-        firstOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i];
+        firstOutputCalculations[i] = 1 / (1 + exp(-(secondCalculations[i] * secondLayerWeights[i])));
+    }
+    
+    for(int i = 0; i < hiddenLayerNodes; i++) {
+        secondOutputCalculations[i] = 1 / (1 + exp(-(secondCalculations[i] * secondLayerWeights[i+6])));
     }
 
     for(int i = 0; i < hiddenLayerNodes; i++) {
-        secondOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+6];
+        thirdOutputCalculations[i] = 1 / (1 + exp(-(secondCalculations[i] * secondLayerWeights[i+12])));
     }
 
     for(int i = 0; i < hiddenLayerNodes; i++) {
-        thirdOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+12];
-    }
-
-    for(int i = 0; i < hiddenLayerNodes; i++) {
-        fourthOutputCalculations[i] = secondCalculations[i] * secondLayerWeights[i+18];
+        fourthOutputCalculations[i] = 1 / (1 + exp(-(secondCalculations[i] * secondLayerWeights[i+18])));
     }
 
     // compare each output to see which one is highest
     for(int i = 0; i < 4; i++) {
-        outputCalculations[i] = firstOutputCalculations[i] + secondOutputCalculations[i+6] + thirdOutputCalculations[i+12] + fourthOutputCalculations[i+18] + outputLayerBiases[i];
+        outputCalculations[i] = 1 / (1 + exp(-(firstOutputCalculations[i] + secondOutputCalculations[i+6] + thirdOutputCalculations[i+12] + fourthOutputCalculations[i+18] + outputLayerBiases[i])));
     }
+
 
     
 }
